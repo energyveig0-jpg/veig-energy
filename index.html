@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Veig Energy - Solar Quotation Generator</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <div class="logo-section">
+                <svg class="logo" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+                    <!-- Blue hand/wave (left side) -->
+                    <path d="M 60 80 Q 40 100 50 140 Q 55 160 80 170 Q 85 150 90 120 Q 95 100 85 80 Z" fill="#00A9CE"/>
+                    <path d="M 85 80 Q 70 85 75 125 Q 80 145 100 155 Q 105 130 110 100 Q 112 85 100 75 Z" fill="#00A9CE"/>
+                    
+                    <!-- Green leaves/growth (right side) -->
+                    <path d="M 120 70 Q 140 75 145 95 Q 148 110 140 130 Q 130 110 125 85 Z" fill="#B8E034"/>
+                    <path d="M 130 55 Q 155 65 160 90 Q 162 110 150 140 Q 140 110 135 75 Z" fill="#2BA645"/>
+                    <path d="M 145 50 Q 170 65 172 100 Q 170 130 155 155 Q 148 120 145 80 Z" fill="#006B3F"/>
+                    
+                    <!-- Center connecting element -->
+                    <ellipse cx="100" cy="100" rx="35" ry="45" fill="none" stroke="#00A9CE" stroke-width="2" opacity="0.3"/>
+                </svg>
+                <div class="header-text">
+                    <h1>VEIG ENERGY</h1>
+                    <p>Solar Quotation Generator</p>
+                </div>
+            </div>
+        </header>
+
+        <form id="solarForm" class="form">
+            <!-- System Type -->
+            <section class="form-section">
+                <h2 class="section-title">SYSTEM TYPE</h2>
+                <div class="form-group">
+                    <label class="section-label">Type of Solar System</label>
+                    <div class="radio-group">
+                        <label class="radio-label">
+                            <input type="radio" name="systemType" value="residential" checked>
+                            <span class="radio-icon">🏠</span>
+                            Residential
+                        </label>
+                        <label class="radio-label">
+                            <input type="radio" name="systemType" value="commercial">
+                            <span class="radio-icon">🏢</span>
+                            Commercial
+                        </label>
+                        <label class="radio-label">
+                            <input type="radio" name="systemType" value="industrial">
+                            <span class="radio-icon">🏭</span>
+                            Industrial
+                        </label>
+                        <label class="radio-label">
+                            <input type="radio" name="systemType" value="common">
+                            <span class="radio-icon">⚡</span>
+                            Common
+                        </label>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Customer Details -->
+            <section class="form-section">
+                <h2 class="section-title">CUSTOMER DETAILS</h2>
+                <div class="form-group">
+                    <label for="customerName" class="form-label">Customer Name</label>
+                    <input type="text" id="customerName" name="customerName" placeholder="Full name" class="form-input">
+                </div>
+                <div class="form-group">
+                    <label for="mobileNumber" class="form-label">Mobile Number</label>
+                    <input type="tel" id="mobileNumber" name="mobileNumber" placeholder="+91 XXXXX XXXXX" class="form-input">
+                </div>
+                <div class="form-group">
+                    <label for="address" class="form-label">Address</label>
+                    <input type="text" id="address" name="address" placeholder="Full address" class="form-input">
+                </div>
+            </section>
+
+            <!-- System Parameters -->
+            <section class="form-section">
+                <h2 class="section-title">SYSTEM PARAMETERS</h2>
+                <div class="form-group">
+                    <label class="section-label">Solar PV Plant Capacity</label>
+                    <div class="capacity-input">
+                        <input type="number" id="capacity" name="capacity" placeholder="e.g. 4.00" class="form-input" step="0.01">
+                        <div class="unit-buttons">
+                            <button type="button" class="unit-btn active" data-unit="KW">KW</button>
+                            <button type="button" class="unit-btn" data-unit="MW">MW</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="date" class="form-label">Date</label>
+                    <input type="date" id="date" name="date" class="form-input">
+                </div>
+                <div class="form-group">
+                    <label for="validity" class="form-label">Validity of Offer</label>
+                    <div class="validity-input">
+                        <input type="date" id="validity" name="validity" class="form-input">
+                        <span class="validity-note">Auto-set to quote date + 7 days</span>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Project Price -->
+            <section class="form-section">
+                <h2 class="section-title">PROJECT PRICE</h2>
+                <div class="form-group">
+                    <label for="totalCost" class="form-label">Total System Cost (₹)</label>
+                    <input type="number" id="totalCost" name="totalCost" placeholder="Enter total cost" class="form-input">
+                </div>
+                <div class="price-info">
+                    <div class="info-row">
+                        <span>System Cost (excl. GST)</span>
+                        <span id="costExclGST">—</span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="gstAmount" class="form-label">Total GST (18 %)</label>
+                    <input type="number" id="gstAmount" name="gstAmount" placeholder="Auto-calculated" class="form-input" readonly>
+                </div>
+                <div class="form-group">
+                    <label for="subsidy" class="form-label">CFA SUBSIDY (THROUGH NATIONAL PORTAL) (₹)</label>
+                    <input type="number" id="subsidy" name="subsidy" placeholder="78000" class="form-input">
+                </div>
+                <div class="final-cost">
+                    <span>Final Effective Cost</span>
+                    <span id="finalCost" class="final-cost-value">₹ -78,000.00</span>
+                </div>
+            </section>
+
+            <!-- System Specifications -->
+            <section class="form-section">
+                <h2 class="section-title">SPECIFICATION OF SYSTEM</h2>
+                <div class="spec-row">
+                    <div class="spec-item">
+                        <label>Solar Panel</label>
+                        <input type="text" placeholder="e.g. WAAREE 580" class="form-input">
+                        <span class="spec-note">Will append '130 Years Warranty'</span>
+                    </div>
+                </div>
+                <div class="spec-row">
+                    <div class="spec-item">
+                        <label>Solar Inverter</label>
+                        <input type="text" placeholder="e.g. Polycab 3.8 KV" class="form-input">
+                        <span class="spec-note">Will append '17 Years Warranty'</span>
+                    </div>
+                </div>
+                <div class="spec-row">
+                    <div class="spec-item">
+                        <label>Electrical Item</label>
+                        <input type="text" placeholder="e.g. Polycab Wire, 45sqmm, Polycab Pipe." class="form-input">
+                        <a href="#" class="info-icon">ℹ️</a>
+                    </div>
+                </div>
+                <div class="spec-row">
+                    <div class="spec-item">
+                        <label>Structure Standard</label>
+                        <input type="text" placeholder="e.g. Jaw GI Structure" class="form-input">
+                        <a href="#" class="info-icon">ℹ️</a>
+                    </div>
+                </div>
+                <div class="spec-row">
+                    <div class="spec-item">
+                        <label>Foundation</label>
+                        <input type="text" placeholder="e.g. M15 Grade Concreting" class="form-input">
+                        <a href="#" class="info-icon">ℹ️</a>
+                    </div>
+                </div>
+                <div class="spec-row">
+                    <div class="spec-item">
+                        <label>Joint & Connection</label>
+                        <input type="text" placeholder="e.g. Nut & Bolt" class="form-input">
+                        <a href="#" class="info-icon">ℹ️</a>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Contact Person -->
+            <section class="form-section">
+                <h2 class="section-title">CONTACT PERSON</h2>
+                <div class="form-group">
+                    <label for="contactName" class="form-label">Contact Person Name</label>
+                    <input type="text" id="contactName" name="contactName" placeholder="e.g. Mr. Sandeep More" class="form-input">
+                </div>
+                <div class="form-group">
+                    <label for="contactDetails" class="form-label">Contact Details (Phone / Email)</label>
+                    <input type="text" id="contactDetails" name="contactDetails" placeholder="e.g. +91-9664189009" class="form-input">
+                </div>
+            </section>
+
+            <!-- Notes and Insurance -->
+            <section class="form-section">
+                <div class="note-box">
+                    <span class="note-label">NOTE:</span> METER CHARGES INCLUDED UPTO ₹ 3000
+                </div>
+                <div class="checkbox-group">
+                    <label class="checkbox-label">
+                        <input type="checkbox" id="insurance" name="insurance">
+                        <span class="checkmark">✓</span>
+                        <span>1 YEAR INSURANCE FEE</span>
+                    </label>
+                </div>
+            </section>
+
+            <!-- Generate Button -->
+            <button type="submit" class="generate-btn">📄 GENERATE PDF QUOTE</button>
+        </form>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
